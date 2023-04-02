@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#weather-form').submit(function(event) {
+        event.preventDefault();
+        var cityName = $('#city-name').val();
+
+        $.ajax({
+          url: 'https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=1d1ab4eed251f3ba6391e89b52474da8',
+          success: function(result) {
+            var temperature = result.main.temp;
+            var humidity = result.main.humidity;
+            var windSpeed = result.wind.speed;
+            var country = result.sys.country;
+            $('#temperature').html(temperature);
+            $('#humidity').html(humidity);
+            $('#wind-speed').html(windSpeed);
+            $('#country').html(country);
+            
+          },
+          error: function() {
+            alert('Unable to retrieve weather data');
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  
+  <h1 style="text-align: center;font-size: 50px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Current Weather</h1>
+  <form style="text-align: center;" id="weather-form">
+    <label for="city-name" style="font-size: 27px;">Enter City Name:</label>
+    <input type="text" id="city-name" name="city-name" style="border-radius: 20px; font-size: 27px;">
+    <button  type="submit" style="border-radius: 20px; background-color:white; font-size: 27px;">Get Weather</button>
+  </form>
+  <div>
+    <p style="text-align: center; font-style: italic; font-size: 27px;">Temperature: <span style="text-align: center" id="temperature"></span></p>
+    <p style="text-align: center;font-style: italic; font-size: 27px;" >Humidity: <span style="text-align: center;" id="humidity"></span></p>
+    <p style="text-align: center;font-style: italic; font-size: 27px;">Wind Speed: <span style="text-align: center;" id="wind-speed"></span></p>
+    <p style="text-align: center;font-style: italic; font-size: 27px;">Country: <span style="text-align: center;" id="country"></span></p>
+  </div>
+ 
+</body>
+</html>
